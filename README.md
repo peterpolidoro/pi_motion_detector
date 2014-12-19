@@ -56,6 +56,7 @@ git clone git://git.drogon.net/wiringPi
 cd wiringPi
 ./build
 gpio -v
+gpio readall
 ```
 
 ###Download this Repository
@@ -115,7 +116,7 @@ width 352
 height 288
 framerate 10
 area_detect 5
-on_area_detected ./home/pi/git/pi_motion_detector/impulse.sh
+on_area_detected /home/pi/git/pi_motion_detector/impulse.sh
 output_pictures off
 target_dir /home/pi/motion/
 ffmpeg_output_movies off
