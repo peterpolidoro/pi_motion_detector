@@ -107,6 +107,8 @@ A3 Memory Split (16)
 7 Overclock (Medium)
 ```
 
+<!-- do not expand filesystem until after image save -->
+
 After reboot, ssh in again and run:
 
 ```shell
@@ -122,7 +124,9 @@ Install this WiFi module from Adafruit:
 
 <http://www.adafruit.com/products/814>
 
-On host machine download latest drivers from (Choose the RTL8188CUS
+
+<!-- these drivers may be unnecessary in newest Raspbian -->
+ On host machine download latest drivers from (Choose the RTL8188CUS
 Linux version)
 
 <http://www.realtek.com.tw/downloads/downloadsView.aspx?Langid=1&PNid=21&PFid=48&Level=5&Conn=4&DownTypeID=3&GetDown=false>
@@ -151,6 +155,7 @@ sudo chown root.root /usr/sbin/hostapd
 sudo chmod 755 /usr/sbin/hostapd
 sudo touch /etc/hostapd/hostapd.conf
 ```
+<!-- these drivers may be unnecessary in newest Raspbian -->
 
 Mount raspberrypi filesystem to make it more convenient to modify
 files. This requires setting up a root account password.
@@ -293,6 +298,9 @@ Unmount all the SD card partitions.
 umount /dev/sdx1
 umount /dev/sdx2
 ```
+
+<!-- disable root password before saving -->
+<!-- sudo passwd -dl root -->
 
 ```shell
 mkdir ~/raspberrypi

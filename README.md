@@ -45,6 +45,28 @@ scp pi@raspberrypi:~/Pictures/cam.jpg ~/Pictures/cam.jpg
 feh ~/Pictures/cam.jpg
 ```
 
+###Download and Install WiringPi
+
+On raspberrypi run:
+
+```shell
+mkdir ~/git
+cd ~/git
+git clone git://git.drogon.net/wiringPi
+cd wiringPi
+./build
+gpio -v
+```
+
+###Download this Repository
+
+On raspberrypi run:
+
+```shell
+cd ~/git
+git clone https://github.com/peterpolidoro/pi_motion_detector.git
+```
+
 ###Install Motion and Modify for the RaspberryPi Camera
 
 On raspberrypi run:
@@ -91,5 +113,26 @@ daemon on
 logfile /tmp/motion.log
 width 352
 height 288
-framerate 100
+framerate 10
+area_detect 5
+on_area_detected ./home/pi/git/pi_motion_detector/impulse.sh
+output_pictures off
+target_dir /home/pi/motion/
+ffmpeg_output_movies off
+stream_quality 10
+stream_maxrate 10
+stream_localhost off
+webcontrol_localhost off
+locate_motion_mode on
+stream_maxrate 100
 ```
+
+On raspberrypi run:
+
+```shell
+mkdir ~/motion
+sudo chgrp motion ~/motion
+chmod -R g+w ~/motion
+sudo reboot
+```
+
