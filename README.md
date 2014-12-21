@@ -97,7 +97,6 @@ wget https://www.dropbox.com/s/xdfcxm5hu71s97d/motion-mmal.tar.gz
 tar zxvf motion-mmal.tar.gz
 sudo mv motion /usr/bin/motion
 sudo mv motion-mmalcam.conf /etc/motion.conf
-cd
 sudo chmod 664 /etc/motion.conf
 sudo chmod 755 /usr/bin/motion
 sudo touch /tmp/motion.log
@@ -143,16 +142,22 @@ width 352
 height 288
 framerate 10
 area_detect 5
-on_area_detected /home/pi/git/pi_motion_detector/impulse.sh
+event_gap 2
 output_pictures off
-target_dir /home/pi/motion/
 ffmpeg_output_movies off
+locate_motion_mode off
+target_dir /home/pi/motion/
 stream_quality 10
 stream_maxrate 10
 stream_localhost off
 webcontrol_localhost off
-locate_motion_mode on
-stream_maxrate 100
+on_area_detected /home/pi/git/pi_motion_detector/impulse.sh
+```
+
+Unmount raspberrypi filesystem. On host machine run:
+
+```shell
+fusermount -u /mnt/raspberrypi
 ```
 
 On raspberrypi run:

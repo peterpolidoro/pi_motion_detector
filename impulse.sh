@@ -1,5 +1,9 @@
 #!/bin/sh
 
+now=$(date +"%Y-%m-%d-%S")
+filename="/home/pi/motion/on_area_detected.$now.txt"
+touch $filename
+
 gpio mode 1 out
 gpio write 1 1
 sleep 1
