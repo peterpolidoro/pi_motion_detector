@@ -12,9 +12,9 @@ License:
 
 ##Installation and Setup
 
-###Setup Raspbian
+###Setup Raspbian for WiFi
 
-[Setup Raspbian](./SETUP_RASPBIAN.md)
+<https://github.com/peterpolidoro/pi_wifi>
 
 ###Setup RaspberryPi Camera
 
