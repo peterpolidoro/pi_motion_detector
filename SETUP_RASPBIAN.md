@@ -5,7 +5,12 @@ Raspbian Installation and Setup
 
 <http://www.raspberrypi.org/downloads/>
 
-##Install Rasbian
+```shell
+cd ~/Downloads
+unzip 2014-09-09-wheezy-raspbian.zip
+```
+
+##Install Raspbian
 
 See what devices are currently mounted.
 
@@ -82,13 +87,11 @@ Connect RaspberryPi to local network with and ethernet cable.
 
 Power up the RaspberryPi using the micro USB cable.
 
-##Setup Rasbian
+##Setup Raspbian
 
 ssh into raspberrypi:
 
-```shell
-ssh pi@raspberrypi
-```
+```shell ssh pi@raspberrypi ```
 
 Configure:
 
@@ -102,12 +105,10 @@ Options to change:
 8 Advanced Options
 A9 Update
 A3 Memory Split (16)
-1 Expand Filesystem
 5 Enable Camera
 7 Overclock (Medium)
+<Finish> (reboot)
 ```
-
-<!-- do not expand filesystem until after image save -->
 
 After reboot, ssh in again and run:
 
@@ -118,14 +119,13 @@ sudo apt-get install hostapd -y
 mkdir ~/drivers
 ```
 
-##Setup Rasbian WiFi
+##Setup Raspbian WiFi
 
 Install this WiFi module from Adafruit:
 
 <http://www.adafruit.com/products/814>
 
 
-<!-- these drivers may be unnecessary in newest Raspbian -->
  On host machine download latest drivers from (Choose the RTL8188CUS
 Linux version)
 
@@ -142,10 +142,10 @@ On raspberrypi run:
 
 ```shell
 cd ~/drivers
-sudo unzip RTL8188C_8192C_USB_linux_v4.0.2_9000.20130911.zip
+unzip RTL8188C_8192C_USB_linux_v4.0.2_9000.20130911.zip
 cd RTL8188C_8192C_USB_linux_v4.0.2_9000.20130911
 cd wpa_supplicant_hostapd
-sudo tar -xvf wpa_supplicant_hostapd-0.8_rtw_r7475.20130812.tar.gz
+tar -xvf wpa_supplicant_hostapd-0.8_rtw_r7475.20130812.tar.gz
 cd wpa_supplicant_hostapd-0.8_rtw_r7475.20130812
 cd hostapd
 sudo make
@@ -155,7 +155,6 @@ sudo chown root.root /usr/sbin/hostapd
 sudo chmod 755 /usr/sbin/hostapd
 sudo touch /etc/hostapd/hostapd.conf
 ```
-<!-- these drivers may be unnecessary in newest Raspbian -->
 
 Mount raspberrypi filesystem to make it more convenient to modify
 files. This requires setting up a root account password.
@@ -171,7 +170,8 @@ sudo reboot
 On host computer run:
 
 ```shell
-mkdir /mnt/raspberrypi
+sudo mkdir /mnt/raspberr
+sudo chown $USER:$USER /mnt/raspberrypi
 sshfs root@raspberrypi:/ /mnt/raspberrypi
 ```
 
@@ -228,9 +228,9 @@ sudo apt-get install dnsmasq -y
 Edit /mnt/raspberrypi/etc/dnsmasq.conf
 
 ```shell
+address=/#/10.0.0.1
 interface=wlan0
 dhcp-range=10.0.0.10,10.0.0.110,6h
-address=/#/10.0.0.1
 ```
 
 Setup iptables to forward port 80 to port 5000. On raspberrypi run:
@@ -246,6 +246,7 @@ Edit /mnt/raspberrypi/etc/rc.local
 
 ```shell
 iptables-restore < /etc/iptables.sav
+exit 0
 ```
 
 Unmount raspberrypi filesystem. On host machine run:
@@ -254,9 +255,10 @@ Unmount raspberrypi filesystem. On host machine run:
 fusermount -u /mnt/raspberrypi
 ```
 
-Reboot. On raspberrypi run:
+Disable root password and reboot. On raspberrypi run:
 
 ```shell
+sudo passwd -dl root
 sudo reboot
 ```
 
@@ -290,7 +292,7 @@ reader on the host machine.
 df -h
 ```
 
-Unmount all the SD card partitions.
+Unmount all the SD card partitions:
 
 ```shell
 # Replace sdx1 and sdx2 with whatever your SD card's
@@ -299,8 +301,7 @@ umount /dev/sdx1
 umount /dev/sdx2
 ```
 
-<!-- disable root password before saving -->
-<!-- sudo passwd -dl root -->
+Save SD card to disk image:
 
 ```shell
 mkdir ~/raspberrypi
@@ -308,4 +309,32 @@ cd ~/raspberrypi
 # Replace sdd with whatever your SD card's
 # device name is (excluding the partition number).
 sudo dcfldd bs=4M if=/dev/sdx of=2014-09-09-wheezy-raspbian-wifi.img
+```
+
+##Finish Raspbian Setup
+
+Remove the SD card from the card reader and install it into the
+RaspberryPi.
+
+Connect RaspberryPi to local network with and ethernet cable.
+
+Power up the RaspberryPi using the micro USB cable.
+
+ssh into raspberrypi:
+
+```shell
+ssh pi@raspberrypi
+```
+
+Configure:
+
+```shell
+sudo raspi-config
+```
+
+Options to change:
+
+```shell
+1 Expand Filesystem
+<Finish> (reboot)
 ```
