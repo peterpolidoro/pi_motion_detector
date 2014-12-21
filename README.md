@@ -16,19 +16,36 @@ License:
 
 <https://github.com/peterpolidoro/pi_wifi>
 
-###Setup RaspberryPi Camera
+###Setup RaspberryPI Camera
+
+ssh into raspberrypi:
+
+```shell ssh pi@raspberrypi ```
+
+Configure:
+
+```shell
+sudo raspi-config
+```
+
+Options to change:
+
+```shell
+5 Enable Camera
+<Finish> (reboot no)
+```
+
+On raspberrypi run:
+
+```shell
+sudo shutdown now
+```
 
 Insert the camera cable into the RaspberryPi.
 
 <http://www.raspberrypi.org/documentation/usage/camera/>
 
 Power up RaspberryPi and ssh into it.
-
-On host machine run:
-
-```shell
-ssh pi@raspberrypi
-```
 
 Use raspistill to test camera. On raspberrypi run:
 
@@ -89,11 +106,25 @@ sudo chmod 775 /tmp/motion.log
 
 ###Configure Motion
 
-On raspberrypi run:
+Mount raspberrypi filesystem to make it more convenient to modify
+files. This requires setting up a root account password.
+
+On the raspberrypi run:
 
 ```shell
-sudo nano /etc/default/motion
+sudo -i
+passwd root
 ```
+
+On host computer run:
+
+```shell
+sudo mkdir /mnt/raspberrypi
+sudo chown $USER:$USER /mnt/raspberrypi
+sshfs root@raspberrypi:/ /mnt/raspberrypi
+```
+
+Edit /mnt/raspberrypi/etc/default/motion
 
 Change the line to:
 
@@ -101,11 +132,7 @@ Change the line to:
 start_motion_daemon=yes
 ```
 
-On raspberrypi run:
-
-```shell
-sudo nano /etc/motion.conf
-```
+Edit /mnt/raspberrypi/etc/motion.conf
 
 Change the lines to:
 
@@ -134,6 +161,7 @@ On raspberrypi run:
 mkdir ~/motion
 sudo chgrp motion ~/motion
 chmod -R g+w ~/motion
+sudo passwd -dl root
 sudo reboot
 ```
 
