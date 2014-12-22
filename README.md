@@ -141,6 +141,8 @@ logfile /tmp/motion.log
 width 352
 height 288
 framerate 10
+threshold 1500
+noise_level 32
 area_detect 5
 event_gap 2
 output_pictures off
